@@ -5,21 +5,23 @@ import {useHistory} from "react-router-dom";
 
 const NewProduct = () =>{
     const [nombre, setNombre] = useState ("");
-    const [precio, setPrecio] = useState ("");
-    const [descripcion, setDescripcion] =useState ("");
+    const [partido, setPartido] = useState ("");
+    const [perfil, setPerfil] =useState ("");
+    const [imagen, setImagen] =useState ("");
     const [errors, setErrors] = useState({});
     const history = useHistory();
 
     const guardarProducto = e => {
         e.preventDefault();
-        axios.post("http://localhost:8000/api/products/new", {
+        axios.post("http://localhost:8000/api/candidatos/new", {
+            imagen,
             nombre,
-            precio,
-            descripcion
+            partido,
+            perfil
         })
             .then(res => {
                 console.log(res);
-                history.push("/");
+                history.push("/all");
             })
             .catch( err => {
                 setErrors(err.response.data.errors);
@@ -30,7 +32,7 @@ const NewProduct = () =>{
 
     return(
         <div>
-            <h1>Nuevo Producto</h1>
+            <h1>Nuevo Candidato</h1>
                 <form onSubmit={guardarProducto}>
                 <div className="form-group">
                     <label htmlFor="nombre">Nombre:</label>
@@ -38,12 +40,16 @@ const NewProduct = () =>{
 
                 </div>
                 <div className="form-group">
-                    <label htmlFor="precio">Precio:</label>
-                    <input id="precio" name="precio" type="number" className="form-control" value={precio} onChange= {(e) => setPrecio(e.target.value)} />
+                    <label htmlFor="imagen">URL Imagen:</label>
+                    <input type="text" id="imagen" name="imagen" value={imagen} onChange={(e) => setImagen(e.target.value)} className="form-control" />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="descripcion">Descripción:</label>
-                    <input id="descripcion" name="descripcion" type="text" className="form-control" value={descripcion} onChange= {(e) => setDescripcion(e.target.value)} />
+                    <label htmlFor="partido">Partido:</label>
+                    <input id="partido" name="partido" type="text" className="form-control" value={partido} onChange= {(e) => setPartido(e.target.value)} />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="perfil">Descripción:</label>
+                    <input id="perfil" name="perfil" type="text" className="form-control" value={perfil} onChange= {(e) => setPerfil(e.target.value)} />
   
                 </div>
                 <input type="submit" className="btn btn-success" value="Guardar" />
